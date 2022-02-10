@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.1.3 (Python 3.7.5 on win32)" generated="20220209 16:38:28.001" rpa="true" schemaversion="2">
+<suite id="s1" name="Tasks" source="c:\THR\Robocorp\create-zords\tasks.robot">
+<test id="s1-t1" name="Robot to make orders from a CSV">
+<kw name="Download csv file">
+<var>${tickets}</var>
+<kw name="Download" library="RPA.HTTP">
+<arg>${CSV_download}</arg>
+<arg>overwrite=true</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<msg timestamp="20220209 16:38:30.499" level="INFO">Creating a new HTTP session</msg>
+<msg timestamp="20220209 16:38:30.499" level="INFO">Creating Session using : alias=rpasession_alias.httpsrobotsparebinindustries.com, url=https://robotsparebinindustries.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<msg timestamp="20220209 16:38:30.862" level="INFO">GET Request : url=https://robotsparebinindustries.com/orders.csv 
+ path_url=/orders.csv 
+ headers={'User-Agent': 'python-requests/2.26.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20220209 16:38:30.862" level="INFO">GET Response : url=https://robotsparebinindustries.com/orders.csv 
+ status=200, reason=OK 
+ headers={'Connection': 'keep-alive', 'Content-Length': '199', 'Server': 'GitHub.com', 'Content-Type': 'text/csv; charset=utf-8', 'x-origin-cache': 'HIT', 'Last-Modified': 'Fri, 13 Aug 2021 11:27:04 GMT', 'Access-Control-Allow-Origin': '*', 'Strict-Transport-Security': 'max-age=31556952', 'ETag': 'W/"61165708-19c"', 'expires': 'Wed, 09 Feb 2022 16:11:25 GMT', 'Cache-Control': 'max-age=600', 'Content-Encoding': 'gzip', 'x-proxy-cache': 'MISS', 'X-GitHub-Request-Id': 'EAD6:6D5F:6DF5E0:A1A182:6203E555', 'Accept-Ranges': 'bytes', 'Date': 'Wed, 09 Feb 2022 22:38:30 GMT', 'Via': '1.1 varnish', 'Age': '236', 'X-Served-By': 'cache-stl4843-STL', 'X-Cache': 'HIT', 'X-Cache-Hits': '1', 'X-Timer': 'S1644446311.861615,VS0,VE1', 'Vary': 'Accept-Encoding', 'X-Fastly-Request-ID': 'ca663c75a5fc780fdade1bdc735a6e0e6df81f78'} 
+ body=Order number,Head,Body,Legs,Address
+1,1,2,3,Address 123
+2,4,1,5,Address 456
+3,6,2,3,Address 789
+4,2,3,2,Address 1
+5,3,5,1,Address 2
+6,1,6,6,Address 3
+7,5,1,5,Address 4
+8,2,3,3,Address 5
+9,3,2,2,Address 6
+10,4,4,2,Address 7
+11,6,6,1,Address 8
+12,1,3,3,Address 9
+13,1,5,4,Address A
+14,3,1,5,Address B
+15,3,2,6,Address C
+16,6,3,6,Address D
+17,5,4,1,Address E
+18,2,5,1,Address F
+19,4,6,2,Address G
+20,1,1,5,Address H 
+ </msg>
+<status status="PASS" starttime="20220209 16:38:30.499" endtime="20220209 16:38:30.864"/>
+</kw>
+<kw name="Read table from CSV" library="RPA.Tables">
+<var>${orders}</var>
+<arg>orders.csv</arg>
+<doc>Read a CSV file as a table.</doc>
+<msg timestamp="20220209 16:38:30.871" level="INFO">${orders} = Table(columns=['Order number', 'Head', 'Body', 'Legs', 'Address'], rows=20)</msg>
+<status status="PASS" starttime="20220209 16:38:30.865" endtime="20220209 16:38:30.871"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${orders}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220209 16:38:30.872" level="INFO">Table(columns=['Order number', 'Head', 'Body', 'Legs', 'Address'], rows=20)</msg>
+<status status="PASS" starttime="20220209 16:38:30.871" endtime="20220209 16:38:30.872"/>
+</kw>
+<msg timestamp="20220209 16:38:30.872" level="INFO">${tickets} = Table(columns=['Order number', 'Head', 'Body', 'Legs', 'Address'], rows=20)</msg>
+<status status="PASS" starttime="20220209 16:38:30.498" endtime="20220209 16:38:30.872"/>
+</kw>
+<kw name="Open Order Robot">
+<kw name="Open Chrome Browser" library="RPA.Browser.Selenium">
+<arg>${main_page}</arg>
+<arg>maximized=true</arg>
+<doc>Open Chrome browser. See ``Open Available Browser`` for
+descriptions of arguments.</doc>
+<msg timestamp="20220209 16:38:30.873" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20220209 16:38:30.898" level="INFO">Created download root directory: C:\Users\e1372875\AppData\Local\robocorp\webdrivers</msg>
+<msg timestamp="20220209 16:38:30.899" level="INFO">Created symlink directory: C:\Users\e1372875\AppData\Local\robocorp\webdrivers</msg>
+<msg timestamp="20220209 16:38:30.899" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20220209 16:38:32.531" level="INFO">Created Chrome browser with arguments: --start-maximized --disable-dev-shm-usage --disable-web-security --allow-running-insecure-content --no-sandbox</msg>
+<msg timestamp="20220209 16:38:32.531" level="INFO" html="true">&lt;p&gt;Attempted combinations:&lt;/p&gt;&lt;div class="doc"&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Browser&lt;/th&gt;&lt;th&gt;Download&lt;/th&gt;&lt;th&gt;Error&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;False&lt;/td&gt;&lt;td&gt;Message: 'chromedriver' executable needs to be in PATH. Please see https://sites.google.com/a/chromium.org/chromedriver/home
+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Chrome&lt;/td&gt;&lt;td&gt;True&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</msg>
+<msg timestamp="20220209 16:38:32.531" level="INFO">Opening url 'https://robotsparebinindustries.com/#/robot-order'</msg>
+<status status="PASS" starttime="20220209 16:38:30.872" endtime="20220209 16:38:34.628"/>
+</kw>
+<status status="PASS" starttime="20220209 16:38:30.872" endtime="20220209 16:38:34.629"/>
+</kw>
+<for flavor="IN">
+<var>${row}</var>
+<value>@{tickets}</value>
+<iter>
+<var name="${row}">{'Order number': '1', 'Head': '1', 'Body': '2', 'Legs': '3', 'Address': 'Address 123'}</var>
+<kw name="Close Pop-up">
+<kw name="Wait Until Element Is Visible" library="RPA.Browser.Selenium">
+<arg>css:div.modal</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20220209 16:38:34.631" endtime="20220209 16:38:34.655"/>
+</kw>
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>OK</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20220209 16:38:34.655" level="INFO">Clicking button 'OK'.</msg>
+<status status="PASS" starttime="20220209 16:38:34.655" endtime="20220209 16:38:34.714"/>
+</kw>
+<status status="PASS" starttime="20220209 16:38:34.630" endtime="20220209 16:38:34.715"/>
+</kw>
+<kw name="Fill Orders">
+<arg>${row}</arg>
+<kw name="Select From List By Value" library="RPA.Browser.Selenium">
+<arg>id:head</arg>
+<arg>${order}[Head]</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<msg timestamp="20220209 16:38:34.716" level="INFO">Selecting options from selection list 'id:head' by value 1.</msg>
+<status status="PASS" starttime="20220209 16:38:34.715" endtime="20220209 16:38:34.774"/>
+</kw>
+<kw name="Select Radio Button" library="RPA.Browser.Selenium">
+<arg>body</arg>
+<arg>${order}[Body]</arg>
+<doc>Sets the radio button group ``group_name`` to ``value``.</doc>
+<msg timestamp="20220209 16:38:34.774" level="INFO">Selecting '2' from radio button 'body'.</msg>
+<status status="PASS" starttime="20220209 16:38:34.774" endtime="20220209 16:38:34.829"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>xpath://html/body/div/div/div[1]/div/div[1]/form/div[3]/input</arg>
+<arg>${order}[Legs]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220209 16:38:34.830" level="INFO">Typing text '3' into text field 'xpath://html/body/div/div/div[1]/div/div[1]/form/div[3]/input'.</msg>
+<status status="PASS" starttime="20220209 16:38:34.830" endtime="20220209 16:38:34.921"/>
+</kw>
+<kw name="Input Text" library="RPA.Browser.Selenium">
+<arg>id:address</arg>
+<arg>${order}[Address]</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220209 16:38:34.922" level="INFO">Typing text 'Address 123' into text field 'id:address'.</msg>
+<status status="PASS" starttime="20220209 16:38:34.921" endtime="20220209 16:38:35.014"/>
+</kw>
+<status status="PASS" starttime="20220209 16:38:34.715" endtime="20220209 16:38:35.014"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<arg>10</arg>
+<arg>2s</arg>
+<arg>Preview</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<kw name="Preview">
+<kw name="Click Button" library="RPA.Browser.Selenium">
+<arg>id:preview</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20220209 16:38:35.015" level="INFO">Clicking button 'id:preview'.</msg>
+<status status="PASS" starttime="20220209 16:38:35.015" endtime="20220209 16:38:35.075"/>
+</kw>
+<status status="PASS" starttime="20220209 16:38:35.015" endtime="20220209 16:38:35.076"/>
+</kw>
+<status status="PASS" starttime="20220209 16:38:35.014" endtime="20220209 16:38:35.076"/>
+</kw>
+<kw name="Robot SS">
+<arg>${row}</arg>
+<kw name="Wait Until Element Is Visible" library="RPA.Browser.Selenium">
+<arg>id:robot-preview-image</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20220209 16:38:35.076" endtime="20220209 16:38:35.102"/>
+</kw>
+<kw name="Screenshot" library="RPA.Browser.Selenium">
+<arg>id:robot-preview-image</arg>
+<arg>${receipt}${/}${ID}[Order number]_image.png</arg>
+<doc>Capture page and/or element screenshot.</doc>
+<msg timestamp="20220209 16:38:35.230" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;img alt="screenshot" class="robot-seleniumlibrary-screenshot" src="data:image/png;base64,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" width="400px"&gt;</msg>
+<msg timestamp="20220209 16:38:35.330" level="INFO">Screenshot saved to file: C:/THR/Robocorp/create-zords/output/receipt_orders\1_image.png</msg>
+<status status="PASS" starttime="20220209 16:38:35.102" endtime="20220209 16:38:35.331"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${receipt_image}</var>
+<arg>${receipt}${/}${ID}[Order number]_image.png</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20220209 16:38:35.331" level="INFO">${receipt_image} = C:/THR/Robocorp/create-zords/output/receipt_orders\1_image.png</msg>
+<status status="PASS" starttime="20220209 16:38:35.331" endtime="20220209 16:38:35.332"/>
+</kw>
+<kw name="Open File" library="RPA.Desktop">
+<arg>${receipt_image}</arg>
+<doc>Open a file with the default application.</doc>
+<msg timestamp="20220209 16:38:35.335" level="FAIL">ValueError: No default application associated for '1_image.png'</msg>
+<status status="FAIL" starttime="20220209 16:38:35.332" endtime="20220209 16:38:35.335"/>
+</kw>
+<status status="FAIL" starttime="20220209 16:38:35.076" endtime="20220209 16:38:35.336"/>
+</kw>
+<kw name="Order">
+<status status="NOT RUN" starttime="20220209 16:38:35.336" endtime="20220209 16:38:35.336"/>
+</kw>
+<kw name="HTML PDF">
+<status status="NOT RUN" starttime="20220209 16:38:35.336" endtime="20220209 16:38:35.336"/>
+</kw>
+<status status="FAIL" starttime="20220209 16:38:34.630" endtime="20220209 16:38:35.336"/>
+</iter>
+<status status="FAIL" starttime="20220209 16:38:34.629" endtime="20220209 16:38:35.336"/>
+</for>
+<status status="FAIL" starttime="20220209 16:38:30.497" endtime="20220209 16:38:35.337">ValueError: No default application associated for '1_image.png'</status>
+</test>
+<doc>Robot to make orders from a CSV</doc>
+<status status="FAIL" starttime="20220209 16:38:28.004" endtime="20220209 16:38:35.338"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Tasks">Tasks</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
